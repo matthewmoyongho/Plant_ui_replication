@@ -52,38 +52,45 @@ class _MyHomePageState extends State<MyHomePage>
         color: Colors.white,
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(25),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 25),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.menu,
-                      color: headerColor,
-                      size: 40,
-                    ),
-                    const Expanded(child: SizedBox()),
-                    Icon(
-                      Icons.search_rounded,
-                      color: headerColor,
-                      size: 40,
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.menu,
+                        color: headerColor,
+                        size: 40,
+                      ),
+                      const Expanded(child: SizedBox()),
+                      Icon(
+                        Icons.search_rounded,
+                        color: headerColor,
+                        size: 40,
+                      )
+                    ],
+                  ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
-                Text('Find the perfect plant for your home',
-                    style: GoogleFonts.ubuntu(
-                      textStyle: TextStyle(
-                          color: headerColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    )),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text('Find the perfect plant for your home',
+                      style: GoogleFonts.ubuntu(
+                        textStyle: TextStyle(
+                            color: headerColor,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
+                      )),
+                ),
                 const SizedBox(
                   height: 5,
                 ),
                 Container(
+                  padding: EdgeInsets.only(right: 25),
                   alignment: Alignment.centerRight,
                   child: const Image(
                     image: AssetImage('assets/filter1.png'),
@@ -198,26 +205,40 @@ class HousePlant extends StatelessWidget {
     return even
         ? Row(
             children: [
-              PlantImage(image: image),
+              PlantImage(
+                image: image,
+                even: even,
+              ),
+              const SizedBox(
+                width: 50,
+              ),
               PlantDetails(
                 title: title,
                 headerColor: headerColor,
                 bodyText: bodyText,
                 bodyColor: bodyColor,
                 price: amount,
+                even: even,
               ),
             ],
           )
         : Row(
             children: [
               PlantDetails(
+                even: even,
                 title: title,
                 headerColor: headerColor,
                 bodyText: bodyText,
                 bodyColor: bodyColor,
                 price: amount,
               ),
-              PlantImage(image: image),
+              const SizedBox(
+                width: 50,
+              ),
+              PlantImage(
+                image: image,
+                even: even,
+              ),
             ],
           );
   }
@@ -227,17 +248,49 @@ class PlantImage extends StatelessWidget {
   const PlantImage({
     super.key,
     required this.image,
+    required this.even,
   });
-
+  final bool even;
   final String image;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        child: Image(
-          image: AssetImage(image),
-        ),
+      child: Stack(
+        fit: StackFit.loose,
+        children: [
+          Positioned(
+            bottom: 0,
+            left: even ? -25 : 25,
+            right: even ? 25 : -25,
+            child: Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width * 1,
+              decoration: even
+                  ? const BoxDecoration(
+                      color: Color(0XFFEFD7D6),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(100),
+                        topRight: Radius.circular(50),
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50),
+                      ),
+                    )
+                  : const BoxDecoration(
+                      color: Color(0XFFEFD7D6),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(100),
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50),
+                      ),
+                    ),
+            ),
+          ),
+          Image(
+            image: AssetImage(image),
+          ),
+        ],
       ),
     );
   }
@@ -251,6 +304,7 @@ class PlantDetails extends StatelessWidget {
     required this.bodyText,
     required this.bodyColor,
     required this.price,
+    required this.even,
   });
 
   final String title;
@@ -258,6 +312,7 @@ class PlantDetails extends StatelessWidget {
   final String bodyText;
   final Color bodyColor;
   final String price;
+  final bool even;
 
   @override
   Widget build(BuildContext context) {
@@ -265,6 +320,9 @@ class PlantDetails extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.height * .3,
         alignment: Alignment.bottomCenter,
+        padding: even
+            ? const EdgeInsets.only(right: 25)
+            : const EdgeInsets.only(left: 25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
