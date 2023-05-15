@@ -16,4 +16,5 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 Here is a screenshot of the product of the codes
-![Screenshot_20230515-094925](https://github.com/matthewmoyongho/Plant_ui_replication/assets/81077032/01188f64-fe3a-4f4f-8bd0-db0ccc648ed4)
+
+![Screenshot_20230515-233231](https://github.com/matthewmoyongho/Plant_ui_replication/assets/81077032/008e3609-195a-4a4d-9ccc-2010518bfc9d)
